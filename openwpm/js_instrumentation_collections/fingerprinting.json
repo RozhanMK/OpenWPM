@@ -1,38 +1,772 @@
 [
-    "ScriptProcessorNode",
-    "GainNode",
-    "AnalyserNode",
-    "OscillatorNode",
-    "OfflineAudioContext",
-    "AudioContext",
-    "RTCPeerConnection",
-    "HTMLCanvasElement",
-    "Storage",
-    "window.navigator",
-    {"CanvasRenderingContext2D": {
-        "excludedProperties": [
-            "quadraticCurveTo",
-            "lineTo",
-            "transform",
-            "globalAlpha",
-            "moveTo",
-            "drawImage",
-            "setTransform",
-            "clearRect",
-            "closePath",
-            "beginPath",
-            "canvas",
-            "translate"
-        ]
-    }},
-    {"window": {
-        "propertiesToInstrument": ["name", "localStorage", "sessionStorage"]
-    }},
-    {"window.document": {
-        "propertiesToInstrument": ["cookie", "referrer"],
-        "logCallStack": true
-    }},
-    {"window.screen": {
-        "propertiesToInstrument": ["pixelDepth", "colorDepth"]
-    }}
+  "AnalyserNode",
+  "AudioBuffer",
+  {
+    "AudioContext": {
+      "propertiesToInstrument": [
+        "createAnalyser",
+        "createOscillator"
+      ]
+    }
+  },
+  {
+    "AudioParam": {
+      "propertiesToInstrument": [
+        "setValueAtTime"
+      ]
+    }
+  },
+  {
+    "window.locationbar": {
+      "propertiesToInstrument": [
+        "visible"
+      ]
+    } 
+  },
+  {
+    "BatteryManager": {
+      "propertiesToInstrument": [
+        "charging",
+        "chargingTime",
+        "dischargingTime",
+        "level"
+      ]
+    }
+  },
+  {
+    "CSSRuleList": {
+      "propertiesToInstrument": [
+        "length"
+      ]
+    }
+  },
+  {
+    "CSSStyleDeclaration": {
+      "propertiesToInstrument": [
+        "cssText",
+        "getPropertyValue",
+        "setProperty"
+      ]
+    }
+  },
+  {
+    "CSSStyleSheet": {
+      "propertiesToInstrument": [
+        "cssRules",
+        "insertRule"
+      ]
+    }
+  },
+  {
+    "CanvasGradient": {
+      "propertiesToInstrument": [
+        "addColorStop"
+      ]
+    }
+  },
+  {
+    "CanvasRenderingContext2D": {
+      "propertiesToInstrument": [
+        "arc",
+        "beginPath",
+        "bezierCurveTo",
+        "canvas",
+        "clearRect",
+        "clip",
+        "closePath",
+        "createLinearGradient",
+        "createRadialGradient",
+        "ellipse",
+        "fill",
+        "fillRect",
+        "fillText",
+        "font",
+        "getImageData",
+        "isPointInPath",
+        "lineTo",
+        "measureText",
+        "moveTo",
+        "quadraticCurveTo",
+        "rect",
+        "restore",
+        "rotate",
+        "save",
+        "scale",
+        "setLineDash",
+        "stroke",
+        "strokeText",
+        "translate"
+      ]
+    }
+  },
+  {
+    "Client": {
+      "propertiesToInstrument": [
+        "postMessage"
+      ]
+    }
+  },
+  {
+    "Crypto": {
+      "propertiesToInstrument": [
+        "getRandomValues",
+        "subtle"
+      ]
+    }
+  },
+  {
+    "DOMRect": {
+      "propertiesToInstrument": [
+        "height",
+        "width",
+        "y"
+      ]
+    }
+  },
+  {
+    "DedicatedWorkerGlobalScope": {
+      "propertiesToInstrument": [
+        "postMessage"
+      ]
+    }
+  },
+  {
+    "DeviceMotionEvent": {
+      "propertiesToInstrument": [
+        "rotationRate"
+      ]
+    }
+  },
+  {
+    "DeviceMotionEventRotationRate": {
+      "propertiesToInstrument": [
+        "beta",
+        "gamma"
+      ]
+    }
+  },
+  {
+    "DeviceOrientationEvent": {
+      "propertiesToInstrument": [
+        "alpha",
+        "beta",
+        "gamma"
+      ]
+    }
+  },
+  {
+    "window.document": {
+      "propertiesToInstrument": [
+        "cookie"
+      ]
+    }
+  },
+  {
+    "DynamicsCompressorNode": {
+      "propertiesToInstrument": [
+        "attack",
+        "knee",
+        "ratio",
+        "reduction",
+        "release",
+        "threshold"
+      ]
+    }
+  },
+  {
+    "GainNode": {
+      "propertiesToInstrument": [
+        "gain"
+      ]
+    }
+  },
+  {
+    "Geolocation": {
+      "propertiesToInstrument": [
+        "clearWatch",
+        "getCurrentPosition",
+        "watchPosition"
+      ]
+    }
+  },
+  {
+    "HTMLAnchorElement": {
+      "propertiesToInstrument": [
+        "hash",
+        "host",
+        "hostname",
+        "href",
+        "origin",
+        "password",
+        "pathname",
+        "port",
+        "protocol",
+        "search",
+        "text"
+      ]
+    }
+  },
+  {
+    "HTMLCanvasElement": {
+      "propertiesToInstrument": [
+        "getContext",
+        "height",
+        "toDataURL",
+        "width"
+      ]
+    }
+  },
+  {
+    "HTMLIFrameElement": {
+      "propertiesToInstrument": [
+        "contentDocument",
+        "contentWindow",
+        "name",
+        "src"
+      ]
+    }
+  },
+  {
+    "HTMLScriptElement": {
+      "propertiesToInstrument": [
+        "src"
+      ]
+    }
+  },
+  {
+    "window.history": {
+      "propertiesToInstrument": [
+        "length"
+      ]
+    }
+  },
+  {
+    "IDBDatabase": {
+      "propertiesToInstrument": [
+        "createObjectStore"
+      ]
+    }
+  },
+  {
+    "IDBFactory": {
+      "propertiesToInstrument": [
+        "open"
+      ]
+    }
+  },
+  {
+    "IDBObjectStore": {
+      "propertiesToInstrument": [
+        "add",
+        "put"
+      ]
+    }
+  },
+  {
+    "IIRFilterNode": {
+      "propertiesToInstrument": []
+    }
+  },
+  {
+    "IdleDeadline": {
+      "propertiesToInstrument": [
+        "timeRemaining"
+      ]
+    }
+  },
+  {
+    "ImageData": {
+      "propertiesToInstrument": [
+        "data"
+      ]
+    }
+  },
+  {
+    "IntersectionObserver": {
+      "propertiesToInstrument": [
+        "disconnect",
+        "observe",
+        "unobserve"
+      ]
+    }
+  },
+  {
+    "IntersectionObserverEntry": {
+      "propertiesToInstrument": [
+        "intersectionRatio",
+        "isIntersecting",
+        "target"
+      ]
+    }
+  },
+  {
+    "window.location": {
+      "propertiesToInstrument": [
+        "ancestorOrigins",
+        "hash",
+        "host",
+        "hostname",
+        "href",
+        "origin",
+        "pathname",
+        "port",
+        "protocol",
+        "reload",
+        "search",
+        "toString"
+      ]
+    }
+  },
+  {
+    "MediaDevices": {
+      "propertiesToInstrument": [
+        "enumerateDevices",
+        "getDisplayMedia"
+      ]
+    }
+  },
+  {
+    "MediaQueryList": {
+      "propertiesToInstrument": [
+        "matches"
+      ]
+    }
+  },
+  {
+    "MediaSource": {
+      "propertiesToInstrument": [
+        "readyState"
+      ]
+    }
+  },
+  {
+    "MessageEvent": {
+      "propertiesToInstrument": [
+        "data",
+        "origin"
+      ]
+    }
+  },
+  {
+    "MessagePort": {
+      "propertiesToInstrument": [
+        "postMessage"
+      ]
+    }
+  },
+  {
+    "MutationObserver": {
+      "propertiesToInstrument": [
+        "observe"
+      ]
+    }
+  },
+  {
+    "MutationRecord": {
+      "propertiesToInstrument": [
+        "addedNodes",
+        "attributeName",
+        "target",
+        "type"
+      ]
+    }
+  },
+  {
+    "window.navigator": {
+      "propertiesToInstrument": [
+        "appCodeName",
+        "appName",
+        "appVersion",
+        "bluetooth",
+        "connection",
+        "cookieEnabled",
+        "credentials",
+        "geolocation",
+        "getBattery",
+        "getGamepads",
+        "hardwareConcurrency",
+        "javaEnabled",
+        "keyboard",
+        "language",
+        "languages",
+        "locks",
+        "maxTouchPoints",
+        "mediaCapabilities",
+        "mediaDevices",
+        "mimeTypes",
+        "onLine",
+        "oscpu",
+        "permissions",
+        "platform",
+        "plugins",
+        "product",
+        "productSub",
+        "sendBeacon",
+        "serviceWorker",
+        "unregisterProtocolHandler",
+        "userAgent",
+        "userAgentData",
+        "vendor",
+        "vendorSub",
+        "vibrate",
+        "webdriver",
+        "xr"
+      ]
+    }
+  },
+  {
+    "NetworkInformation": {
+      "propertiesToInstrument": [
+        "downlink",
+        "effectiveType",
+        "onchange",
+        "rtt",
+        "saveData",
+        "type"
+      ]
+    }
+  },
+  {
+    "OfflineAudioCompletionEvent": {
+      "propertiesToInstrument": [
+        "renderedBuffer"
+      ]
+    }
+  },
+  {
+    "OfflineAudioContext": {
+      "propertiesToInstrument": [
+        "startRendering"
+      ]
+    }
+  },
+  {
+    "OffscreenCanvas": {
+      "propertiesToInstrument": [
+        "getContext"
+      ]
+    }
+  },
+  {
+    "OscillatorNode": {
+      "propertiesToInstrument": [
+        "frequency"
+      ]
+    }
+  },
+  {
+    "PageTransitionEvent": {
+      "propertiesToInstrument": [
+        "persisted"
+      ]
+    }
+  },
+  {
+    "Performance": {
+      "propertiesToInstrument": [
+        "mark",
+        "measure",
+        "now",
+        "timeOrigin"
+      ]
+    }
+  },
+  {
+    "PerformanceObserverEntryList": {
+      "propertiesToInstrument": [
+        "getEntries"
+      ]
+    }
+  },
+  {
+    "PerformanceResourceTiming": {
+      "propertiesToInstrument": [
+        "connectStart",
+        "fetchStart",
+        "initiatorType",
+        "responseEnd",
+        "responseStart",
+        "toJSON"
+      ]
+    }
+  },
+  {
+    "PermissionStatus": {
+      "propertiesToInstrument": [
+        "state"
+      ]
+    }
+  },
+  {
+    "Permissions": {
+      "propertiesToInstrument": [
+        "query"
+      ]
+    }
+  },
+  {
+    "PresentationRequest": {
+      "propertiesToInstrument": [
+        "getAvailability"
+      ]
+    }
+  },
+  {
+    "ProgressEvent": {
+      "propertiesToInstrument": [
+        "loaded",
+        "total"
+      ]
+    }
+  },
+  {
+    "RTCDataChannel": {
+      "propertiesToInstrument": [
+        "send"
+      ]
+    }
+  },
+  {
+    "RTCPeerConnection": {
+      "propertiesToInstrument": [
+        "createDataChannel",
+        "createOffer",
+        "localDescription",
+        "setLocalDescription"
+      ]
+    }
+  },
+  {
+    "RTCSessionDescription": {
+      "propertiesToInstrument": [
+        "sdp"
+      ]
+    }
+  },
+  {
+    "Response": {
+      "propertiesToInstrument": [
+        "json"
+      ]
+    }
+  },
+  {
+    "SVGTextContentElement": {
+      "propertiesToInstrument": [
+        "getComputedTextLength"
+      ]
+    }
+  },
+  {
+    "window.screen": {
+      "propertiesToInstrument": [
+        "availHeight",
+        "availLeft",
+        "availTop",
+        "availWidth",
+        "colorDepth",
+        "height",
+        "left",
+        "orientation",
+        "pixelDepth",
+        "width"
+      ]
+    }
+  },
+  {
+    "ScreenOrientation": {
+      "propertiesToInstrument": [
+        "angle",
+        "lock",
+        "type",
+        "unlock"
+      ]
+    }
+  },
+  {
+    "ServiceWorker": {
+      "propertiesToInstrument": [
+        "postMessage"
+      ]
+    }
+  },
+  {
+    "ServiceWorkerContainer": {
+      "propertiesToInstrument": [
+        "controller"
+      ]
+    }
+  },
+  {
+    "SourceBuffer": {
+      "propertiesToInstrument": [
+        "appendBuffer",
+        "buffered",
+        "updating"
+      ]
+    }
+  },
+  {
+    "SpeechSynthesis": {
+      "propertiesToInstrument": [
+        "getVoices"
+      ]
+    }
+  },
+  {
+    "window.storage": {
+      "propertiesToInstrument": [
+        "clear",
+        "getItem",
+        "length",
+        "removeItem",
+        "setItem"
+      ]
+    }
+  },
+  {
+    "TextMetrics": {
+      "propertiesToInstrument": [
+        "fontBoundingBoxAscent",
+        "width"
+      ]
+    }
+  },
+  {
+    "TimeRanges": {
+      "propertiesToInstrument": [
+        "end",
+        "length",
+        "start"
+      ]
+    }
+  },
+  {
+    "URL": {
+      "propertiesToInstrument": [
+        "host",
+        "href",
+        "pathname",
+        "searchParams"
+      ]
+    }
+  },
+  {
+    "URLSearchParams": {
+      "propertiesToInstrument": [
+        "get"
+      ]
+    }
+  },
+  {
+    "window.visualViewport": {
+      "propertiesToInstrument": [
+        "width"
+      ]
+    }
+  },
+  {
+    "WebGL2RenderingContext": {
+      "propertiesToInstrument": [
+        "bufferData"
+      ]
+    }
+  },
+  {
+    "WebGLRenderingContext": {
+      "propertiesToInstrument": [
+        "canvas",
+        "createBuffer",
+        "drawArrays",
+        "getExtension",
+        "getParameter",
+        "getShaderPrecisionFormat"
+      ]
+    }
+  },
+  {
+    "WebGLShaderPrecisionFormat": {
+      "propertiesToInstrument": [
+        "precision",
+        "rangeMax",
+        "rangeMin"
+      ]
+    }
+  },
+  {
+    "WebSocket": {
+      "propertiesToInstrument": [
+        "send"
+      ]
+    }
+  },
+  {
+    "window": {
+      "propertiesToInstrument": [
+        "clearInterval",
+        "clearTimeout",
+        "closed",
+        "crypto",
+        "devicePixelRatio",
+        "fetch",
+        "frames",
+        "getComputedStyle",
+        "innerHeight",
+        "innerWidth",
+        "length",
+        "localStorage",
+        "locationbar",
+        "matchMedia",
+        "name",
+        "open",
+        "opener",
+        "outerHeight",
+        "outerWidth",
+        "pageXOffset",
+        "pageYOffset",
+        "parent",
+        "performance",
+        "postMessage",
+        "requestAnimationFrame",
+        "requestIdleCallback",
+        "screenLeft",
+        "screenTop",
+        "screenX",
+        "screenY",
+        "self",
+        "setInterval",
+        "setTimeout",
+        "speechSynthesis",
+        "statusbar",
+        "top"
+      ]
+    }
+  },
+  {
+    "Worker": {
+      "propertiesToInstrument": [
+        "postMessage"
+      ]
+    }
+  },
+  {
+    "XMLHttpRequest": {
+      "propertiesToInstrument": [
+        "abort",
+        "getResponseHeader",
+        "open",
+        "readyState",
+        "response",
+        "responseText",
+        "responseURL",
+        "send",
+        "setRequestHeader",
+        "status",
+        "statusText",
+        "timeout",
+        "withCredentials"
+      ]
+    }
+  },
+  "window.indexedDB"
 ]
