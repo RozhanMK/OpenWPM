@@ -1,38 +1,31 @@
 import argparse
 from pathlib import Path
 from typing import Literal
-
+import random
 import tranco
 
 from custom_command import LinkCountingCommand
 from openwpm.command_sequence import CommandSequence
 from openwpm.commands.browser_commands import GetCommand
 from openwpm.config import BrowserParams, ManagerParams
-from openwpm.storage.sql_provider import SQLiteStorageProvider
+from openwpm.storage.local_storage import LocalArrowProvider
+from openwpm.storage.leveldb import LevelDbProvider
 from openwpm.task_manager import TaskManager
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--tranco", action="store_true", default=False)
-parser.add_argument("--headless", action="store_true", default=False),
-
-args = parser.parse_args()
 
 sites = [
     "http://www.example.com",
     "http://www.princeton.edu",
     "http://citp.princeton.edu/",
 ]
-if args.tranco:
-    # Load the latest tranco list. See https://tranco-list.eu/
-    print("Loading tranco top sites list...")
-    t = tranco.Tranco(cache=True, cache_dir=".tranco")
-    latest_list = t.list()
-    sites = ["http://" + x for x in latest_list.top(10)]
+# Load the latest tranco list. See https://tranco-list.eu/
+print("Loading tranco top sites list...")
+t = tranco.Tranco(cache=True, cache_dir=".tranco")
+latest_list = t.list()
+sites = ["http://" + x for x in random.sample(latest_list.top(500), 200)]
 
 
-display_mode: Literal["native", "headless", "xvfb"] = "native"
-if args.headless:
-    display_mode = "headless"
+display_mode: Literal["native", "headless", "xvfb"] = "xvfb"
 
 # Loads the default ManagerParams
 # and NUM_BROWSERS copies of the default BrowserParams
@@ -47,13 +40,13 @@ for browser_param in browser_params:
     # Record cookie changes
     browser_param.cookie_instrument = True
     # Record Navigations
-    browser_param.navigation_instrument = True
+    # browser_param.navigation_instrument = True
     # Record JS Web API calls
     browser_param.js_instrument = True
     # Record the callstack of all WebRequests made
     # browser_param.callstack_instrument = True
     # Record DNS resolution
-    browser_param.dns_instrument = True
+    # browser_param.dns_instrument = True
     # Set this value as appropriate for the size of your temp directory
     # if you are running out of space
     browser_param.maximum_profile_size = 50 * (10**20)  # 50 MB = 50 * 2^20 Bytes
@@ -72,8 +65,8 @@ manager_params.log_path = Path("./datadir/openwpm.log")
 with TaskManager(
     manager_params,
     browser_params,
-    SQLiteStorageProvider(Path("./datadir/crawl-data.sqlite")),
-    None,
+    LocalArrowProvider(Path("./datadir/localstorage/")),
+    LevelDbProvider(Path("./datadir/leveldb/"))
 ) as manager:
     # Visits the sites
     for index, site in enumerate(sites):
@@ -91,7 +84,7 @@ with TaskManager(
         )
 
         # Start by visiting the page
-        command_sequence.append_command(GetCommand(url=site, sleep=3), timeout=60)
+        command_sequence.append_command(GetCommand(url=site, sleep=10), timeout=30)
         # Have a look at custom_command.py to see how to implement your own command
         command_sequence.append_command(LinkCountingCommand())
 
