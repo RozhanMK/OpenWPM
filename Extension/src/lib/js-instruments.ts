@@ -667,7 +667,18 @@ export function getInstrumentJS(eventId: string, sendMessagesToLogger) {
     if (logSettings.propertiesToInstrument === null) {
       propertiesToInstrument = [];
     } else if (logSettings.propertiesToInstrument.length === 0) {
-      propertiesToInstrument = Object.getPropertyNames(object);
+      try {
+        propertiesToInstrument = Object.getPropertyNames(object);
+      } catch (e) {
+        // Object may be undefined in this frame / at document_start. Don't crash;
+        // fall back to an empty list and rely on nonExistingPropertiesToInstrument
+        // to explicitly instrument missing names.
+        console.warn(
+          `OpenWPM: Cannot enumerate properties of ${instrumentedName}:`,
+          e,
+        );
+        propertiesToInstrument = [];
+      }
     } else {
       propertiesToInstrument = logSettings.propertiesToInstrument;
     }
@@ -756,11 +767,15 @@ export function getInstrumentJS(eventId: string, sendMessagesToLogger) {
     // More details about how this function is invoked are in
     // content/javascript-instrument-content-scope.ts
     JSInstrumentRequests.forEach(function (item) {
-      instrumentObject(
-        eval(item.object),
-        item.instrumentedName,
-        item.logSettings,
-      );
+      let targetObject;
+      try {
+        targetObject = eval(item.object);
+      } catch (e) {
+        // Don't abort the whole instrumentation pass if eval fails for one item
+        console.warn("OpenWPM: eval failed for instrument target:", item.object, e);
+        targetObject = undefined;
+      }
+      instrumentObject(targetObject, item.instrumentedName, item.logSettings);
     });
   }
 
