@@ -6,7 +6,7 @@ import tranco
 
 from custom_command import LinkCountingCommand
 from openwpm.command_sequence import CommandSequence
-from openwpm.commands.browser_commands import GetCommand
+from openwpm.commands.browser_commands import GetCommand, ScrollDown
 from openwpm.config import BrowserParams, ManagerParams
 from openwpm.storage.local_storage import LocalArrowProvider
 from openwpm.storage.leveldb import LevelDbProvider
@@ -22,7 +22,7 @@ sites = [
 print("Loading tranco top sites list...")
 t = tranco.Tranco(cache=True, cache_dir=".tranco")
 latest_list = t.list()
-sites = ["http://" + x for x in random.sample(latest_list.top(500), 200)]
+sites = ["http://" + x for x in random.sample(latest_list.top(500), 10)]
 
 
 display_mode: Literal["native", "headless", "xvfb"] = "xvfb"
@@ -43,6 +43,7 @@ for browser_param in browser_params:
     # browser_param.navigation_instrument = True
     # Record JS Web API calls
     browser_param.js_instrument = True
+    browser_param.save_content = "script"
     # Record the callstack of all WebRequests made
     # browser_param.callstack_instrument = True
     # Record DNS resolution
@@ -79,12 +80,14 @@ with TaskManager(
         # Parallelize sites over all number of browsers set above.
         command_sequence = CommandSequence(
             site,
+            reset=True,
             site_rank=index,
             callback=callback,
         )
 
         # Start by visiting the page
-        command_sequence.append_command(GetCommand(url=site, sleep=10), timeout=30)
+        command_sequence.append_command(GetCommand(url=site, sleep=5), timeout=30)
+        command_sequence.append_command(ScrollDown())
         # Have a look at custom_command.py to see how to implement your own command
         command_sequence.append_command(LinkCountingCommand())
 

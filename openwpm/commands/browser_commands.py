@@ -109,7 +109,27 @@ def tab_restart_browser(webdriver):
     assert len(webdriver.window_handles) == 1
     webdriver.switch_to.window(webdriver.window_handles[0])
 
-
+class ScrollDown(BaseCommand):
+    def __repr__(self):
+        return "ScrollDownCommand()"
+    
+    def execute(
+        self,
+        webdriver: Firefox,
+        browser_params: BrowserParams,
+        manager_params: ManagerParams,
+        extension_socket: ClientSocket,
+    ) -> None:
+        try:
+            logger.info("BROWSER %i: Executing ScrollDown command", self.browser_id)
+            scroll_down(webdriver)
+        except WebDriverException as e:
+            logger.error(
+                "BROWSER %i: Error executing ScrollDown command: %s",
+                self.browser_id,
+                str(e),
+            )
+        
 class GetCommand(BaseCommand):
     """goes to <url> using the given <webdriver> instance"""
 
